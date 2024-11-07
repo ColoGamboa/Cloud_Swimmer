@@ -8,14 +8,13 @@ namespace CloudSwimmer.Entities {
     public class CloudBlockCreator : MonoBehaviour, IBlockCreator 
     {
         private static CloudBlockCreator _instance;
-
+        //This class is a singleton
         public GameObject _cloud;
         private List<GameObject> _clouds;
         //public SpriteRenderer spriteTarget;
 
-        private Vector3 mousePosition;
+        private Vector2 lastSpawnPosition;
 
-        //this concrete factory its implemented as a singleton
         public static CloudBlockCreator Instance
         {
             get {
@@ -62,29 +61,42 @@ namespace CloudSwimmer.Entities {
             //GameObject newCloud = new GameObject("CloudBlock");
             //newCloud = _cloud;
             _cloud.transform.position = mousePosition;
+
             Instantiate(_cloud);
         }
 
-        /*public IBlock createBlock()
-        { 
+        private bool isDragging;
+        private float minDistance = 0.5f;
 
-            // Crea un nuevo GameObject
-            GameObject spriteObject = new GameObject("CloudBlock");
-
-            // Añade un componente SpriteRenderer
-            SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
-
-            // Asigna el sprite al SpriteRenderer
-           // spriteRenderer.sprite = spriteToAssign;
-
-            // (Opcional) Ajusta la posición del GameObject
-            spriteObject.transform.position = new Vector3(0, 0, 0);
-            spriteObject.name = "Juan";
-            Instantiate(spriteObject);
-        }*/
-        void Update()
+        public void createBlockRow(Vector3 mousePosition)
         {
 
+            isDragging = true;
+            lastSpawnPosition = mousePosition;
+            //Instantiate(prefabA, lastSpawnPosition, Quaternion.identity); // Instanciar el primero
+            CreateBlock(mousePosition);
+
+            // Detectar cuando el usuario suelta el clic (fin del arrastre)
+            if (Input.GetMouseButtonUp(0))
+            {
+                isDragging = false;
+            }
+
+            // Instanciar durante el arrastre si el mouse se ha movido suficiente distancia
+            if (isDragging)
+            {
+                //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if (Vector2.Distance(lastSpawnPosition, mousePosition) >= minDistance)
+                {
+                    //Instantiate(prefabA, mousePosition, Quaternion.identity);
+                    CreateBlock(mousePosition);
+                    lastSpawnPosition = mousePosition; // Actualizar la última posición
+                }
+            }
+        }
+        void Update()
+        {
+            
         }
 
         
