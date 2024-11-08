@@ -7,14 +7,8 @@ using CloudSwimmer.Interface;
 namespace CloudSwimmer.Entities {
     public class CloudBlockCreator : MonoBehaviour, IBlockCreator 
     {
-        private static CloudBlockCreator _instance;
         //This class is a singleton
-        public GameObject _cloud;
-        private List<GameObject> _clouds;
-        //public SpriteRenderer spriteTarget;
-
-        private Vector2 lastSpawnPosition;
-
+        private static CloudBlockCreator _instance;
         public static CloudBlockCreator Instance
         {
             get {
@@ -43,63 +37,51 @@ namespace CloudSwimmer.Entities {
             // Si necesitas inicializar algo aquí, hazlo
         }
 
+        //public SpriteRenderer spriteTarget;
+        public GameObject _cloud;
+        //private GameObject _cloudsContainer;
+        public Transform _cloudContainer;
+        private Vector2 _spawnPosition;
+        public float _minDistance = 0.5f;
 
         void Start()
         {
             //Instantiate(_cloud);
             //var juanObjectSprite = Instantiate(spriteTarget);
             //juanObjectSprite.color = Color.red;
+            //Instantiate(_cloudsContainer);
+            _spawnPosition = Input.mousePosition;
         }
-
-        public void DebugPosition(Vector3 mousePosition)
+        public void DebugPosition(Vector2 mousePosition)
         {
             Debug.Log("Posición del mouse: " + mousePosition + "Powered by Cloud Creator :)");
         }
 
-        public void CreateBlock(Vector3 mousePosition)
+        public void CreateBlock(Vector2 mousePosition)
         {
-            //GameObject newCloud = new GameObject("CloudBlock");
-            //newCloud = _cloud;
-            _cloud.transform.position = mousePosition;
-
-            Instantiate(_cloud);
-        }
-
-        private bool isDragging;
-        private float minDistance = 0.5f;
-
-        public void createBlockRow(Vector3 mousePosition)
-        {
-
-            isDragging = true;
-            lastSpawnPosition = mousePosition;
-            //Instantiate(prefabA, lastSpawnPosition, Quaternion.identity); // Instanciar el primero
-            CreateBlock(mousePosition);
-
-            // Detectar cuando el usuario suelta el clic (fin del arrastre)
-            if (Input.GetMouseButtonUp(0))
+            if (Vector2.Distance(_spawnPosition, mousePosition) >= _minDistance)
             {
-                isDragging = false;
+                _cloud.transform.position = mousePosition;
+                //Instantiate(_cloud, parent:_cloudContainer);
+                Debug.Log("cloudContainer: " + _cloudContainer);
+                GameObject newCloud = Instantiate(_cloud, mousePosition, Quaternion.identity, _cloudContainer);
+                newCloud.transform.SetParent(_cloudContainer);
+                _spawnPosition = mousePosition;
             }
-
-            // Instanciar durante el arrastre si el mouse se ha movido suficiente distancia
-            if (isDragging)
+            else
             {
-                //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                if (Vector2.Distance(lastSpawnPosition, mousePosition) >= minDistance)
-                {
-                    //Instantiate(prefabA, mousePosition, Quaternion.identity);
-                    CreateBlock(mousePosition);
-                    lastSpawnPosition = mousePosition; // Actualizar la última posición
-                }
+                _cloud.transform.position = mousePosition;
+                //Instantiate(_cloud, parent:_cloudContainer);
+                Debug.Log("cloudContainer: " + _cloudContainer);
+                GameObject newCloud = Instantiate(_cloud, mousePosition, Quaternion.identity, _cloudContainer);
+                newCloud.transform.SetParent(_cloudContainer);
+                _spawnPosition = mousePosition;
             }
         }
         void Update()
         {
             
         }
-
-        
     }
 }
 

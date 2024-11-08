@@ -11,10 +11,10 @@ namespace CloudSwimmer.Interfaces {
     {
         //this interface is tha base of all the blocks than can be constructed dinamicaly 
 
-        void CreateBlock(Vector3 mousePosition);
+        void CreateBlock(Vector2 mousePosition);
 
-        void DebugPosition(Vector3 mousePosition);
-        void createBlockRow(Vector3 mousePosition);
+        void DebugPosition(Vector2 mousePosition);
+        //void createBlockRow(Vector3 mousePosition);
     }
 
 }
