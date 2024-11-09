@@ -8,8 +8,8 @@ using CloudSwimmer.Controllers;
 
 namespace Assets.Scripts.Interfaces
 {
-    internal interface ControllersListeners
+    interface IControllersListeners
     {
-        void Update(InputController);
+        void Update(InputController controller);
     }
 }
