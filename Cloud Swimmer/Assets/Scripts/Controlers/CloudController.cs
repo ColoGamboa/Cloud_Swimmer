@@ -40,7 +40,7 @@ namespace CloudSwimmer.Controllers
                 lastMousePosition = currentMousePosition;
             }
         }
-        void Update()
+        void FixedUpdate()
         {
             // Detectar cuando el usuario presiona el clic izquierdo (inicio de arrastre)
             if (Input.GetMouseButtonDown(0))

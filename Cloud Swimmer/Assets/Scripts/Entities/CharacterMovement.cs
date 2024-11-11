@@ -19,6 +19,54 @@ namespace CloudSwimmer.Entities
             _rb = GetComponent<Rigidbody2D>();
         }
 
+        public void Jump()
+        {
+            if (_isGrounded) {
+                _rb.AddForce(Vector2.up * jumpForce);
+                _isGrounded = false;
+            } 
+        }
+        public void HorizontalMove(float _horizontal)
+        {
+            _rb.velocity = new Vector2(_horizontal, _rb.velocity.y);
+        }
+
+        public void CheckTriggerEnter(Collider2D collider)
+        {
+            if (collider.gameObject.CompareTag("Ground"))
+            {
+                StartCoroutine(SetGroundedWithDelay());
+            }
+        }
+        private IEnumerator SetGroundedWithDelay()
+        {
+            yield return new WaitForSeconds(0.05f); // Retardo pequeño para evitar el "bug"
+            _isGrounded = true;
+        }
+
+        public void CheckTriggerExit(Collider2D collider)
+        {
+            if (collider.gameObject.CompareTag("Ground"))
+            {
+                _isGrounded = false;
+            }
+        }
+        
+    }
+}
+/*public float moveSpeed = 5f;       // Velocidad de movimiento
+        public float jumpForce = 10f;      // Fuerza de salto
+
+        private Rigidbody2D _rb;
+        private bool _isGrounded;
+        private float _horizontal;
+        private bool _isJumping;
+
+        void Start()
+        {
+            _rb = GetComponent<Rigidbody2D>();
+        }
+
         void Jump()
         {
             _rb.AddForce(Vector2.up * jumpForce);
@@ -60,7 +108,4 @@ namespace CloudSwimmer.Entities
         private void FixedUpdate()
         {
             _rb.velocity = new Vector2(_horizontal, _rb.velocity.y);
-        }
-    }
-}
-
+        }*/
