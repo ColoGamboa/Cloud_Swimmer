@@ -238,6 +238,7 @@ MonoBehaviour:
   _moveSpeed: 5
   _jumpForce: 0
   _context: {fileID: 0}
+  hasCollided: 0
 --- !u!1 &503567658
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +348,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.46
+  orthographic size: 2.76
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1319,6 +1320,7 @@ GameObject:
   - component: {fileID: 1398553595}
   - component: {fileID: 1398553594}
   - component: {fileID: 1398553596}
+  - component: {fileID: 1398553597}
   m_Layer: 0
   m_Name: CloudCharacter
   m_TagString: CloudCharacter
@@ -1370,7 +1372,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1444,6 +1446,33 @@ MonoBehaviour:
   _speed: 0
   _context: {fileID: 0}
   _blocksInside: 0
+--- !u!50 &1398553597
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398553592}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1620177539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1527,9 +1556,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1260709746}
     m_Modifications:
+    - target: {fileID: 818138782906810885, guid: d795dc6957f4e264792eccb83540601e, type: 3}
+      propertyPath: m_Size.y
+      value: 0.4738395
+      objectReference: {fileID: 0}
+    - target: {fileID: 818138782906810885, guid: d795dc6957f4e264792eccb83540601e, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.20978384
+      objectReference: {fileID: 0}
     - target: {fileID: 1556387538772977831, guid: d795dc6957f4e264792eccb83540601e, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556387538772977831, guid: d795dc6957f4e264792eccb83540601e, type: 3}
+      propertyPath: m_TagString
+      value: OutsideCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 3316606634069821978, guid: d795dc6957f4e264792eccb83540601e, type: 3}
       propertyPath: m_LocalPosition.x

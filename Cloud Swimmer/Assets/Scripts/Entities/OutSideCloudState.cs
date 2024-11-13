@@ -19,6 +19,8 @@ namespace Assets.Scripts.Entities
         public float _moveSpeed = 5f;
         public float _jumpForce;
         public CharacterMovement _context;
+        public bool hasCollided = false;
+
 
         public void Start() 
         {
@@ -27,9 +29,24 @@ namespace Assets.Scripts.Entities
             _rb = GetComponent<Rigidbody2D>();
             _jumpForce = 250f;          
         }
-        public void Init(Collider2D collider)
+        public void Init(Collider2D collider, Vector2 _position, Vector2 _direction)
         {
-            throw new NotImplementedException();
+            Debug.Log("INICIANDO CHAR");
+            Debug.Log("Outside");
+            Debug.Log(_direction);
+            Debug.Log(_position);
+            _position.y += 10f * Time.deltaTime * _direction.y;
+            _position.x += 10f * Time.deltaTime * _direction.x;
+            _char.transform.position = _position;
+            _rb.velocity = _direction;
+            MakeSelfVisible(_char, true);
+            Debug.Log("DEERIA ESTAR");
+            StartCoroutine(SetCollitionEvent());
+        }
+        private IEnumerator SetCollitionEvent()
+        {
+            yield return new WaitForSeconds(0.5f); // Retardo pequeño para evitar el "bug"
+            hasCollided = false;
         }
         public void SetContext(CharacterMovement _movement)
         {
@@ -45,13 +62,15 @@ namespace Assets.Scripts.Entities
             {
                 StartCoroutine(SetGroundedWithDelay());
             }
-            if (collider.gameObject.CompareTag("CloudBlock"))
+            if (collider.gameObject.CompareTag("CloudBlock") && !hasCollided)
             {
                 deactivateCharacter(_char);
                 var _cloudState = GetCloudState();
-                _cloudState.Init(collider);
+                _cloudState.Init(collider, Vector2.zero, Vector2.zero);
+                _char.transform.position = Vector2.zero;
                 _cloudState.SetContext(_context);
                 SetStateToContext(_cloudState);
+               hasCollided = true;
             }
         }
         private IEnumerator SetGroundedWithDelay()
@@ -91,7 +110,7 @@ namespace Assets.Scripts.Entities
         {
             Debug.Log("DESACTIVANDO CHAR");
             MakeSelfVisible(_char, false);           
-            _char.transform.position = Vector2.zero; 
+            //_char.transform.position = Vector2.zero; 
         }
         private void MakeSelfVisible(GameObject _char, bool isVisible)
         {

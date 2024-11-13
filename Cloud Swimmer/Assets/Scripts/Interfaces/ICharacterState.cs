@@ -11,7 +11,7 @@ namespace Assets.Scripts.Interfaces
 {
     public interface ICharacterState
     {
-        public void Init(Collider2D collider);
+        public void Init(Collider2D collider, Vector2 _position, Vector2 _direction);
         public void SetContext(CharacterMovement _movement);
         public void Move(float _horizontal, float _vertical);
         public void KeyInput(char _key);

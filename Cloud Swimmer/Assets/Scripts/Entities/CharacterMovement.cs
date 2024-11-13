@@ -49,7 +49,7 @@ namespace CloudSwimmer.Entities
         }
         public void Movement(float _horizontal, float _vertical) //general
         {
-            Debug.Log("MOVEMENT MOVE");
+            //Debug.Log("MOVEMENT MOVE");
             _charState.Move(_horizontal, _vertical);            
         }
         public void KeyInput(char _key)
