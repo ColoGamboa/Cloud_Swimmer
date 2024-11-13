@@ -13,43 +13,36 @@ namespace Assets.Scripts.Controlers
     {
 
         private CharacterMovement _characterMovement;
-        private bool _insideCloud;
         private float _horizontal;
+        private float _vertical;
 
         void Start()
         {
             _characterMovement = GetComponent<CharacterMovement>(); 
-            _insideCloud = false;
         }
 
         void Update()
-        {
-            
+        {      
             if (Input.GetKeyDown(KeyCode.W))
             {
-                if (!_insideCloud) { _characterMovement.Jump(); }          
+                //_characterMovement.Jump();
+                _characterMovement.KeyInput('W');
             }
         }
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (!_insideCloud)
-            {
-                _characterMovement.CheckTriggerEnter(collider);
-            }
+            _characterMovement.CheckTriggerEnter(collider);
         }
 
         private void OnTriggerExit2D(Collider2D collider)
         {
-            
-            if (!_insideCloud)
-            {
-                _characterMovement.CheckTriggerExit(collider);
-            }
+            _characterMovement.CheckTriggerExit(collider);
         }      
         private void FixedUpdate()
         {
-            _horizontal = Input.GetAxisRaw("Horizontal");
-            if (!_insideCloud) { _characterMovement.HorizontalMove(_horizontal); }
+            _horizontal = Input.GetAxisRaw("Horizontal");    
+            _vertical = Input.GetAxisRaw("Vertical");
+            _characterMovement.Movement(_horizontal, _vertical);
         }
     }
 }
