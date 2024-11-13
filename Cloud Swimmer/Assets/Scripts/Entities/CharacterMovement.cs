@@ -1,12 +1,86 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Interfaces;
+using Assets.Scripts.Entities;
 
 namespace CloudSwimmer.Entities
 {
     public class CharacterMovement : MonoBehaviour //ver de cambiar nombre por Character
     {
-        public float _moveSpeed = 5f;       // Velocidad de movimiento
+        //singleton
+        private static CharacterMovement _instance;
+        public static CharacterMovement Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    GameObject singletonCharacterMovement = new GameObject();
+                    _instance = singletonCharacterMovement.AddComponent<CharacterMovement>();
+                    singletonCharacterMovement.name = typeof(CharacterMovement).Name + " (Singleton)";
+
+                    // No destruir el objeto al cargar nuevas escenas
+                    DontDestroyOnLoad(singletonCharacterMovement);
+                }
+                return _instance;
+            }
+        }
+        private void Awake()
+        {
+            // Si hay otra instancia, destrúyela
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            _instance = this;
+            // Si necesitas inicializar algo aquí, hazlo
+        }
+
+
+        private ICharacterState _charState;
+        //public float _moveSpeed = 5f;
+        //public float _jumpForce;
+
+        public void Start()
+        {
+            _charState = GetComponentInChildren<OutSideCloudState>();
+            //_charState.Init(this);
+        }
+
+        public void Movement(float _horizontal, float _vertical) //general
+        {
+            _charState.Move(_horizontal, _vertical);            
+        }
+        //public void CheckTriggerEnter(Collider2D collider)
+        //{
+        //    _charState.CheckTriggerEnter(collider);
+        //}
+        //public void CheckTriggerExit(Collider2D collider)
+        //{
+        //    _charState.CheckTriggerExit(collider);
+        //}
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            Debug.Log("Trigger");
+            _charState.CheckTriggerEnter(collider);
+        }
+
+        private void OnTriggerExit2D(Collider2D collider)
+        {
+            _charState.CheckTriggerExit(collider);
+        }
+        public void KeyInput(char _key)
+        {
+            _charState.KeyInput(_key);
+        }
+        private void SetState(ICharacterState _state) { _charState = _state; }
+    }
+}
+/*
+ * public float _moveSpeed = 5f;       // Velocidad de movimiento
         public float _jumpForce = 300f;      // Fuerza de salto
         public GameObject _cloudChar;
         public float _coreMoveSpeed = 1f;
@@ -116,8 +190,4 @@ namespace CloudSwimmer.Entities
                 _insideCloud = false;
                 activateCharacter();
             }
-        }
-        
-    }
-}
-
+        }*/

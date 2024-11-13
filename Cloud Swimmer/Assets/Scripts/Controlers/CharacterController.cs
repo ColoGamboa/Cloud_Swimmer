@@ -18,7 +18,7 @@ namespace Assets.Scripts.Controlers
 
         void Start()
         {
-            _characterMovement = GetComponent<CharacterMovement>(); 
+            _characterMovement = CharacterMovement.Instance;
         }
 
         void Update()
@@ -29,15 +29,15 @@ namespace Assets.Scripts.Controlers
                 _characterMovement.KeyInput('W');
             }
         }
-        private void OnTriggerEnter2D(Collider2D collider)
-        {
-            _characterMovement.CheckTriggerEnter(collider);
-        }
+        //private void OnTriggerEnter2D(Collider2D collider)
+        //{
+        //    _characterMovement.CheckTriggerEnter(collider);
+        //}
 
-        private void OnTriggerExit2D(Collider2D collider)
-        {
-            _characterMovement.CheckTriggerExit(collider);
-        }      
+        //private void OnTriggerExit2D(Collider2D collider)
+        //{
+        //    _characterMovement.CheckTriggerExit(collider);
+        //}      
         private void FixedUpdate()
         {
             _horizontal = Input.GetAxisRaw("Horizontal");    
