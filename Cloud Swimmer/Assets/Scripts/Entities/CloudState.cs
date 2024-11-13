@@ -14,6 +14,7 @@ namespace Assets.Scripts.Entities
         public GameObject _char;
         public float _speed;
         public CharacterMovement _context;
+        public int _blocksInside;
         public void Init(Collider2D collider)
         {           
             // Obtener el centro del collider del objeto que entró en el trigger
@@ -35,7 +36,46 @@ namespace Assets.Scripts.Entities
 
         public void CheckTriggerExit(Collider2D collider)
         {
-            throw new NotImplementedException();
+            if (collider.gameObject.CompareTag("Cloud"))
+            {
+                SpriteRenderer _spriteRenderer = _char.GetComponent<SpriteRenderer>();
+                _spriteRenderer.color = Color.red;
+            }
+        }
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            // Verifica si el objeto que entra tiene el tag "CloudBlock"
+            if (other.CompareTag("CloudBlock"))
+            {
+                Debug.Log("ENTRANDO EN CLOUD");
+                _blocksInside++; // Incrementa el contador
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            // Esto podría ser útil si necesitas realizar acciones mientras está en colisión
+            if (other.CompareTag("CloudBlock"))
+            {
+                Debug.Log("Permaneciendo dentro de un CloudBlock.");
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            // Verifica si el objeto que sale tiene el tag "CloudBlock"
+            if (other.CompareTag("CloudBlock"))
+            {
+                _blocksInside--; // Decrementa el contador
+                CheckTriggerExit(other);
+                Debug.Log("ENTRANDO EN CLOUD");
+            }
+        }
+        private void deactivateCharacter(GameObject _char)
+        {
+            Debug.Log("DESACTIVANDO CHAR");
+            MakeSelfVisible(_char, false);
+            _char.transform.position = Vector2.zero;
         }
 
         public void KeyInput(char _key)
