@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -12,18 +13,23 @@ namespace Assets.Scripts.Entities
 {
     internal class OutSideCloudState : MonoBehaviour, ICharacterState
     {
-        //public GameObject _char;
+        public GameObject _char;
         private Rigidbody2D _rb;
         public bool _isGrounded;
         public float _moveSpeed = 5f;
         public float _jumpForce;
-        private CharacterMovement _context;
+        public CharacterMovement _context;
 
         public void Start() 
         {
             //Instantiate(_char);
+            _char = gameObject;
             _rb = GetComponent<Rigidbody2D>();
             _jumpForce = 250f;          
+        }
+        public void Init(Collider2D collider)
+        {
+            throw new NotImplementedException();
         }
         public void SetContext(CharacterMovement _movement)
         {
@@ -38,6 +44,14 @@ namespace Assets.Scripts.Entities
             if (collider.gameObject.CompareTag("Ground"))
             {
                 StartCoroutine(SetGroundedWithDelay());
+            }
+            if (collider.gameObject.CompareTag("CloudBlock"))
+            {
+                deactivateCharacter(_char);
+                var _cloudState = GetCloudState();
+                _cloudState.Init(collider);
+                _cloudState.SetContext(_context);
+                SetStateToContext(_cloudState);
             }
         }
         private IEnumerator SetGroundedWithDelay()
@@ -72,6 +86,34 @@ namespace Assets.Scripts.Entities
         private void OnTriggerExit2D(Collider2D collider)
         {
             CheckTriggerExit(collider);
+        }
+        private void deactivateCharacter(GameObject _char)
+        {
+            Debug.Log("DESACTIVANDO CHAR");
+            MakeSelfVisible(_char, false);           
+            _char.transform.position = Vector2.zero; 
+        }
+        private void MakeSelfVisible(GameObject _char, bool isVisible)
+        {
+            SpriteRenderer spriteRenderer = _char.GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.enabled = isVisible; // Hacer el sprite invisible
+            }
+        }
+
+        private ICharacterState GetCloudState()
+        {
+            GameObject _cloudCharacter = GameObject.FindWithTag("CloudCharacter");
+            //CloudCharacter
+            if (_cloudCharacter != null) { Debug.Log("SE ENCONTRO"); }            
+            ICharacterState _cloudState = _cloudCharacter.GetComponent<CloudState>();
+            return _cloudState; //revisar que no sean null?
+        }
+        private void SetStateToContext(ICharacterState _state)
+        {
+            _context.SetState(_state);
         }
     }
 }

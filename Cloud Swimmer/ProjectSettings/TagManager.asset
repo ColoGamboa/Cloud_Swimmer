@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - CloudBlock
+  - CloudCharacter
   layers:
   - Default
   - TransparentFX

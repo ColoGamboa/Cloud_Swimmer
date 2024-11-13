@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Interfaces
 {
-    internal interface ICharacterState
+    public interface ICharacterState
     {
-        //public void Init(CharacterMovement _movement);
+        public void Init(Collider2D collider);
         public void SetContext(CharacterMovement _movement);
         public void Move(float _horizontal, float _vertical);
         public void KeyInput(char _key);

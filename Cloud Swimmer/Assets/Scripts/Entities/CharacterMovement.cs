@@ -6,7 +6,7 @@ using Assets.Scripts.Entities;
 
 namespace CloudSwimmer.Entities
 {
-    public class CharacterMovement : MonoBehaviour //ver de cambiar nombre por Character
+    public class CharacterMovement : MonoBehaviour 
     {
         //singleton
         private static CharacterMovement _instance;
@@ -40,43 +40,27 @@ namespace CloudSwimmer.Entities
         }
 
 
-        private ICharacterState _charState;
-        //public float _moveSpeed = 5f;
-        //public float _jumpForce;
+        public ICharacterState _charState;
 
         public void Start()
         {
             _charState = GetComponentInChildren<OutSideCloudState>();
-            //_charState.Init(this);
+            _charState.SetContext(this);
         }
-
         public void Movement(float _horizontal, float _vertical) //general
         {
+            Debug.Log("MOVEMENT MOVE");
             _charState.Move(_horizontal, _vertical);            
-        }
-        //public void CheckTriggerEnter(Collider2D collider)
-        //{
-        //    _charState.CheckTriggerEnter(collider);
-        //}
-        //public void CheckTriggerExit(Collider2D collider)
-        //{
-        //    _charState.CheckTriggerExit(collider);
-        //}
-        private void OnTriggerEnter2D(Collider2D collider)
-        {
-            Debug.Log("Trigger");
-            _charState.CheckTriggerEnter(collider);
-        }
-
-        private void OnTriggerExit2D(Collider2D collider)
-        {
-            _charState.CheckTriggerExit(collider);
         }
         public void KeyInput(char _key)
         {
             _charState.KeyInput(_key);
         }
-        private void SetState(ICharacterState _state) { _charState = _state; }
+        public void SetState(ICharacterState _state)
+        {
+            _charState = _state;
+            Debug.Log($"NUEVO ESTADO $_state");
+        } 
     }
 }
 /*
