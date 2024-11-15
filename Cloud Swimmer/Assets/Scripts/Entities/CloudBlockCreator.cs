@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CloudSwimmer.Interfaces;
 using CloudSwimmer.Interface;
+using Assets.Scripts.Controlers;
 
 namespace CloudSwimmer.Entities {
     public class CloudBlockCreator : MonoBehaviour, IBlockCreator 
@@ -47,14 +48,14 @@ namespace CloudSwimmer.Entities {
 
         void Start()
         {
-            _cloudQuantity = 5;
+            _cloudQuantity = 100;
             _spawnPosition = Input.mousePosition;
         }
 
-        public void IncreaseCloudQuantity(int quantity)
-        {
-            _cloudQuantity += quantity;
-        }
+        //public void IncreaseCloudQuantity(int quantity)
+        //{
+        //    _cloudQuantity += quantity;
+        //}
         public void DebugPosition(Vector2 mousePosition)
         {
             Debug.Log("Posición del mouse: " + mousePosition + "Powered by Cloud Creator :)");
@@ -84,7 +85,7 @@ namespace CloudSwimmer.Entities {
         }
         void Update()
         {
-            
+            _cloudQuantity = GameManager.Instance.GetCloudCount();
         }
     }
 }

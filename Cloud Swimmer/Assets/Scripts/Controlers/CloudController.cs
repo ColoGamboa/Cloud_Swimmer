@@ -17,7 +17,7 @@ namespace CloudSwimmer.Controllers
         }
         private Vector2 lastMousePosition;
         private Vector2 currentMousePosition;
-        private bool isDragging;
+        public bool isDragging;
         void leftClickPressDown()
         {
             isDragging = true;
@@ -34,13 +34,13 @@ namespace CloudSwimmer.Controllers
             if (currentMousePosition != lastMousePosition)
             {
                 //Debug.Log("Arrastrando... posición del mouse: " + currentMousePosition);
-                blockCreator.DebugPosition(currentMousePosition);
+                //blockCreator.DebugPosition(currentMousePosition);
                 blockCreator.CreateBlock(currentMousePosition);
                 // Actualizar la última posición del mouse
                 lastMousePosition = currentMousePosition;
             }
         }
-        void FixedUpdate()
+        void Update()
         {
             // Detectar cuando el usuario presiona el clic izquierdo (inicio de arrastre)
             if (Input.GetMouseButtonDown(0))

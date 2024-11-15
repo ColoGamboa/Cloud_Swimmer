@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Interfaces;
 using CloudSwimmer.Entities;
+using CloudSwimmer.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace Assets.Scripts.Entities
         public float _jumpForce;
         public CharacterMovement _context;
         public bool hasCollided = false;
+
+        private IBlockCreator blockCreator;
 
 
         public void Start() 

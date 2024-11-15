@@ -20,6 +20,7 @@ namespace Assets.Scripts.Entities
         float _vertical;
         //private float _lastHorizontalInput = 0f;
         //private float _lastVerticalInput = 0f;
+        public bool _onGround;
 
         public void Init(Collider2D collider, Vector2 _pos, Vector2 _direction)
         {           
@@ -42,6 +43,10 @@ namespace Assets.Scripts.Entities
                 Debug.Log("ENTRANDO EN CLOUD");
                 //_blocksInside++; // Incrementa el contador
             }
+            if (collider.gameObject.CompareTag("Ground"))
+            {
+                _onGround = false;
+            }
         }
 
         public void CheckTriggerExit(Collider2D collider)
@@ -63,6 +68,10 @@ namespace Assets.Scripts.Entities
                     _OutsideState.SetContext(_context);
                     SetStateToContext(_OutsideState);   
                 }
+            }
+            if (collider.gameObject.CompareTag("Ground"))
+            {
+                _onGround = true;
             }
         }
         private IEnumerator AwaitExitCollider()
@@ -105,10 +114,14 @@ namespace Assets.Scripts.Entities
 
         public void Move(float _horizontal, float _vertical)
         {
-            //Debug.Log("CLOUD MOVE");
-            Vector2 direction = new Vector2(_horizontal, _vertical).normalized;
-            //Debug.Log("Dirección: " + direction + ", Velocidad: " + _speed + ", DeltaTime: " + Time.deltaTime);
-            _char.transform.Translate(direction * _speed * Time.deltaTime);
+            if (!_onGround)
+            {
+                //Debug.Log("CLOUD MOVE");
+                Vector2 direction = new Vector2(_horizontal, _vertical).normalized;
+                //Debug.Log("Dirección: " + direction + ", Velocidad: " + _speed + ", DeltaTime: " + Time.deltaTime);
+                _char.transform.Translate(direction * _speed * Time.deltaTime);
+            }
+            
         }
 
         public void SetContext(CharacterMovement _movement)
