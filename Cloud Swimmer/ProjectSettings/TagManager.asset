@@ -8,6 +8,7 @@ TagManager:
   - CloudBlock
   - CloudCharacter
   - OutsideCharacter
+  - Checkpoints
   layers:
   - Default
   - TransparentFX

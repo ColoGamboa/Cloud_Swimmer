@@ -8,57 +8,44 @@ namespace CloudSwimmer.Controllers
 {
     public class CloudController : MonoBehaviour
     {
-        //revisar esta clase para que funcione con un patron observer (hay q implementar los
-        //controladores especificos suscritos a este controlador)
-        private IBlockCreator blockCreator;
+        private IBlockCreator _blockCreator;
         void Start()
         {
-            blockCreator = CloudBlockCreator.Instance;
+            _blockCreator = CloudBlockCreator.Instance;
         }
-        private Vector2 lastMousePosition;
-        private Vector2 currentMousePosition;
-        public bool isDragging;
-        void leftClickPressDown()
+        public Vector2 _lastMousePosition;
+        public Vector2 _currentMousePosition;
+        public bool _isDragging;
+        void LeftClickPressDown()
         {
-            isDragging = true;
-            //lastMousePosition = Input.mousePosition;
-            lastMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log("Inicio de arrastre");
-            blockCreator.CreateBlock(lastMousePosition);
+            _isDragging = true;
+            _lastMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _blockCreator.CreateBlock(_lastMousePosition);
         }
-        void leftClickIsDragged()
+        void LeftClickIsDragged()
         {
-            //Vector2 currentMousePosition = Input.mousePosition;
-            currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            // Comprobar si el mouse se ha movido
-            if (currentMousePosition != lastMousePosition)
+            _currentMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (_currentMousePosition != _lastMousePosition)
             {
-                //Debug.Log("Arrastrando... posición del mouse: " + currentMousePosition);
-                //blockCreator.DebugPosition(currentMousePosition);
-                blockCreator.CreateBlock(currentMousePosition);
-                // Actualizar la última posición del mouse
-                lastMousePosition = currentMousePosition;
+                _blockCreator.CreateBlock(_currentMousePosition);
+                _lastMousePosition = _currentMousePosition;
             }
         }
         void Update()
         {
-            // Detectar cuando el usuario presiona el clic izquierdo (inicio de arrastre)
             if (Input.GetMouseButtonDown(0))
             {
-                leftClickPressDown();
+                LeftClickPressDown();
             }
-            // Detectar cuando el usuario suelta el clic (fin del arrastre)
             if (Input.GetMouseButtonUp(0))
             {
-                isDragging = false;
+                _isDragging = false;
                 Debug.Log("Fin del arrastre");
             }
-            // Detectar arrastre mientras el clic está presionado
-            if (isDragging)
+            if (_isDragging)
             {
-                leftClickIsDragged();
+                LeftClickIsDragged();
             }
-            // Update is called once per frame
         }
 
     }

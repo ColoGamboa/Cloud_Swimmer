@@ -9,7 +9,7 @@ namespace CloudSwimmer.Controllers
 {
     public class InputController : MonoBehaviour
     {
-        //this is a publisher of a observer pattern
+        //NOT IMPLEMENTED CLASS (YET)
         private List<IControllersListeners> _listeners;
 
         void Subscribe(IControllersListeners listener)
@@ -27,13 +27,10 @@ namespace CloudSwimmer.Controllers
                 listener.Update(this);
             }
         }
-
-
         private void Update()
         {
             
         }
-
     }
 }
 
