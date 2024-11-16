@@ -46,7 +46,10 @@ namespace CloudSwimmer.Controllers
             {
                 LeftClickIsDragged();
             }
+            if (Input.GetMouseButtonDown(1))
+            {
+                _blockCreator.DestroyBlock();
+            }
         }
-
     }
 }

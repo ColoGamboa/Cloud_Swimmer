@@ -14,7 +14,8 @@ namespace CloudSwimmer.Interfaces {
         void CreateBlock(Vector2 mousePosition);
 
         void DebugPosition(Vector2 mousePosition);
-        //void createBlockRow(Vector3 mousePosition);
+
+        void DestroyBlock();
     }
 
 }

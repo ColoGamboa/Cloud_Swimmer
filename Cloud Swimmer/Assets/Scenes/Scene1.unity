@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cloud: {fileID: 7856514646546463774, guid: 2d29d30300afbbd4ca44d87ae37d97e5, type: 3}
+  _cloudContainer: {fileID: 1620177540}
   _minDistance: 0.07
   _cloudQuantity: 100
 --- !u!4 &503567660
