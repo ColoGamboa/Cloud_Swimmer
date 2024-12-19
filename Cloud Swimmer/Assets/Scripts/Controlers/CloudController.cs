@@ -21,6 +21,7 @@ namespace CloudSwimmer.Controllers
             _isDragging = true;
             _lastMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _blockCreator.CreateBlock(_lastMousePosition);
+            
         }
         void LeftClickIsDragged()
         {
@@ -30,6 +31,7 @@ namespace CloudSwimmer.Controllers
                 _blockCreator.CreateBlock(_currentMousePosition);
                 _lastMousePosition = _currentMousePosition;
             }
+            
         }
         void Update()
         {

@@ -37,7 +37,7 @@ namespace Assets.Scripts.Entities
             _position.y += 10f * Time.deltaTime * _direction.y;
             _position.x += 10f * Time.deltaTime * _direction.x;
             _char.transform.position = _position;
-            _rb.velocity = _direction;
+            _rb.linearVelocity = _direction;
             MakeSelfVisible(_char, true);
             StartCoroutine(SetCollitionEvent());
         }
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Entities
         }
         public void Move(float _horizontal, float _vertical)
         {
-            _rb.velocity = new Vector2(_horizontal * _moveSpeed, _rb.velocity.y);
+            _rb.linearVelocity = new Vector2(_horizontal * _moveSpeed, _rb.linearVelocity.y);
         }
         public void CheckTriggerEnter(Collider2D collider)
         {

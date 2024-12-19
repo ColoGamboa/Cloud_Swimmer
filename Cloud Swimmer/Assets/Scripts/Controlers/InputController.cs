@@ -31,6 +31,9 @@ namespace CloudSwimmer.Controllers
         {
             
         }
+        private void Start() {
+            
+        }
     }
 }
 

@@ -34,6 +34,7 @@ namespace Assets.Scripts.Controlers
             _horizontal = Input.GetAxisRaw("Horizontal");    
             _vertical = Input.GetAxisRaw("Vertical");
             _characterMovement.Movement(_horizontal, _vertical);
+            
         }
     }
 }
